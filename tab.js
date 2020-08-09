@@ -54,7 +54,14 @@
 				 { title: "URL"},
 				 { title: "Cost" },
 				 { title: "Notes" },
-		                 ]	
+		                 ],	
+			columnDefs: [ 
+				      { render: function ( data, type, row ) {
+						  return '<a href="'+ row[3]+'">'+data+'</a>';       
+						   },
+			                "target": 2},
+				      { "visible": true,  "targets": 3 }
+				    ]
 		  });
 		     
 	      setupCol()
@@ -73,7 +80,7 @@
 		table.columns().flatten().each( function ( colIdx ) {
 			// Create the select list and/or search box add  operation
 			var search = $('<input type="text" placeholder="Search" />')
-			if ([1,4].includes(colIdx)) {
+			if ([0,1,4].includes(colIdx)) {
 			    search  = $('<select><option value=""></option></select>')
 			    // Get the search data for the first column and add to the select list
 			    table
