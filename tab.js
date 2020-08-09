@@ -32,6 +32,9 @@
 	     	for (rc=0; rc<6; rc++){
 		   row.push(data.getValue(i, rc));
 		}
+		var href = '<a href="'+ row[3]+'">'+row[2]+'</a>';
+		row[2] = href;
+		row.splice(3,1);  //remove item 3 the url
 		dtab.push(row);
 	     }  
 	}
@@ -50,18 +53,10 @@
 			columns: [
 				 { title: "Minority group", width: "50px" },
 				 { title: "Field/Discipline" },
-				 { title: "Name" },
-				 { title: "URL"},
+				 { title: "Name (and website link)" },
 				 { title: "Cost" },
 				 { title: "Notes" },
-		                 ],	
-			columnDefs: [ 
-				      { render: function ( data, type, row ) {
-						  return '<a href="'+ row[3]+'">'+data+'</a>';       
-						   },
-			                "target": 2},
-				      { "visible": true,  "targets": 3 }
-				    ]
+		                 ]	
 		  });
 		     
 	      setupCol()
@@ -80,7 +75,7 @@
 		table.columns().flatten().each( function ( colIdx ) {
 			// Create the select list and/or search box add  operation
 			var search = $('<input type="text" placeholder="Search" />')
-			if ([0,1,4].includes(colIdx)) {
+			if ([0,1,3].includes(colIdx)) {
 			    search  = $('<select><option value=""></option></select>')
 			    // Get the search data for the first column and add to the select list
 			    table
