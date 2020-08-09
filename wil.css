@@ -1,0 +1,20 @@
+body { background-color: #EEFFFF } 
+p { color: #000000; font-size: 10pt; font-family: Verdana, Arial, Helvetica } 
+td { font-size: 10pt; font-family: 
+Arial,Helvetica; text-align: left } 
+th { font-size: 10pt; font-style: bold; 
+font-family: Arial,Helvetica; } 
+th.left { text-align: left } 
+.center {text-align: center}
+a.plain.link {color : #FFFFFF } 
+a.plain.visited {color : #FFFFFF } 
+a:link { color: #0000CC; font-size: 10pt; font-family: Arial, Helvetica; ; text-decoration: none} 
+a:visited { color: #6BA5D7; font-size: 10pt; font-family: Arial, Helvetica; text-decoration: none} 
+a:hover {background: #9fFF00; color: #BBA5D7; font-size: 
+10pt; font-family: Arial, Helvetica; text-decoration: none} 
+.warn { color: #FF0000; } 
+h3 { font-size: 10pt; font-style: bold; font-family: Arial,Helvetica; } 
+h2 { font-size: 11pt; font-style: bold; font-family: Arial,Helvetica; } 
+h1 { font-size: 12pt; font-style: bold; font-family: Arial,Helvetica; } 
+img {border="0"} 
+.fixed { width="600" }

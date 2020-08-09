@@ -1,0 +1,131 @@
+
+<!DOCTYPE html>
+<!-- Query Ranpal's minoiry hires google sheet  - pull it in to a datatable to allow filtering
+    -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<link rel="shortcut icon" href="wil.ico">
+<link rel="stylesheet" href="wil.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css">
+
+
+<script src="https://d3js.org/d3.v3.min.js?v=3.2.8"></script>
+<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+<script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+<script type="text/javascript"charset="utf-8">
+	google.charts.load('current', {'packages':['corechart']});
+
+        var dtab;
+        var data;
+        var count = 0;
+<!-- /gviz/tq on end of url gets the json back , gid is the tab (but not)  ?tqx=responseHandler:handleQueryResponse-->
+        var URL='https://docs.google.com/spreadsheets/d/19tutZXzsOsUod5eqLQgnuUjYqi1h8IHIgAv_5v5idEU/gviz/tq#gid=1270181244'
+
+        function getData() {
+		if (google.visualization != undefined && google.visualization.Query != undefined ) {
+			var query = new google.visualization.Query(URL);
+			query.setQuery('select B,C,D,E,F,G');
+			query.send(handleQueryResponse);
+		} else {
+		    console.log("Wait google.viz..")
+		    setTimeout(getData, 300); // try again in 300 milliseconds
+	      }
+	}
+ 
+        function handleQueryResponse(resp) {
+	      if (resp.isError()) {
+		  alert('Error in query: ' + response.getMessage() + ' ' + response.getDetailedMessage());
+		  return;
+	      } 
+	     data= resp.getDataTable()
+	     dtab = []
+	     for (i=0; i<data.getNumberOfRows(); i++){
+		var row = []
+	     	for (rc=0; rc<6; rc++){
+		   row.push(data.getValue(i, rc));
+		}
+		dtab.push(row);
+	     }  
+	}
+
+        function setupTable() {
+	     if (count >= 10) {
+		alert("Failed to get data from "+URL);
+		return
+	     }
+
+			<!-- paging: false,-->
+	     if (dtab) {
+		  var dt = $('#dtab').DataTable( {
+			data: dtab,
+			autoWidth: false,
+			columns: [
+				 { title: "Minority group", width: "50px" },
+				 { title: "Field/Discipline" },
+				 { title: "Name" },
+				 { title: "URL"},
+				 { title: "Cost" },
+				 { title: "Notes" },
+		                 ]	
+		  });
+		     
+	      setupCol()
+              } else {
+		    count = count + 1;
+		    console.log("Wait ..")
+		    setTimeout(setupTable, 300); // try again in 300 milliseconds
+	      }
+	};
+
+
+
+        function setupCol() {
+		var table = $('#dtab').DataTable();
+		 
+		table.columns().flatten().each( function ( colIdx ) {
+			// Create the select list and/or search box add  operation
+			var search = $('<input type="text" placeholder="Search" />')
+			if ([1,4].includes(colIdx)) {
+			    search  = $('<select />')
+			    // Get the search data for the first column and add to the select list
+			    table
+			        .column( colIdx )
+			        .cache( 'search' )
+			        .sort()
+			        .unique()
+			        .each( function ( d ) {
+					            search.append( $('<option value="'+d+'">'+d+'</option>') );
+					        } );
+		       }
+			search.appendTo(
+			     table.column(colIdx).footer()
+			)
+			.on( 'keyup change clear', function () {
+				table.column( colIdx )
+					 .search( $(this).val()).draw();
+			    });
+		} );
+	}
+
+
+
+
+        $(document).ready(function() {
+	    getData()
+            setupTable()	
+	});
+
+</script>
+</head>
+
+<body>
+<table id="dtab" class="display compact" style="width:100%" data-page-length='20'>
+	<tfoot> <td></td> <td></td><td></td><td></td><td></td></tfoot> 
+</table>
+</body>
+</html>
+
