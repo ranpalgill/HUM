@@ -90,7 +90,7 @@
 			// Create the select list and/or search box add  operation
 			var search = $('<input type="text" placeholder="Search" />')
 			if ([1,4].includes(colIdx)) {
-			    search  = $('<select />')
+			    search  = $('<select><option value=""></option></select>')
 			    // Get the search data for the first column and add to the select list
 			    table
 			        .column( colIdx )
@@ -124,7 +124,7 @@
 
 <body>
 	<h1> Curated list of hiring sites which focus on underrepresented minorities</h1>
-<table id="dtab" class="display compact" style="width:100%" data-page-length='15'>
+<table id="dtab" class="display compact" style="width:100%" data-page-length='10'>
 	<tfoot> <td></td> <td></td><td></td><td></td><td></td></tfoot> 
 </table>
 </body>
